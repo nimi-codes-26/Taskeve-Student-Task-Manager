@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Task Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1>✅ Register on TASKEVE🎯</h1>
+            <p class="auth-subtitle">Create your account to get started.</p>
+            
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form action="/register" method="POST" class="auth-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" required autofocus>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required minlength="4">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password" required minlength="4">
+                </div>
+                
+                <button type="submit" class="btn-submit btn-full">Register</button>
+            </form>
+            
+            <p class="auth-footer">
+                Already have an account? <a href="/login">Login here</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Task & Reminder App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header-bar">
+            <h1>📚 TASKEVE : Task Manager 📝</h1>
+            <div class="user-info">
+                <span>Welcome, <strong>{{ username }}</strong>!</span>
+                <a href="/logout" class="btn-logout">Logout</a>
+            </div>
+        </div>
+        
+        <!-- Add Task Button -->
+        <div class="add-button-container">
+            <button onclick="toggleAddForm()" class="add-task-btn">+ Add Task</button>
+        </div>
+
+        <!-- Add Task Form (Hidden by default) -->
+        <div id="addTaskForm" class="add-form-modal" style="display: none;">
+            <form action="/add" method="POST" class="task-form">
+                <h2>Add New Task</h2>
+                <div class="form-group">
+                    <label for="title">Title *</label>
+                    <input type="text" name="title" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="date" name="due_date" id="due_date">
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-submit">Add Task</button>
+                    <button type="button" onclick="toggleAddForm()" class="btn-cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Task List Table -->
+        <div class="task-table">
+            {% if tasks %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th>Days Left</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                        <tr class="{% if task.completed %}completed-row{% endif %}">
+                            <td><strong>{{ task.title }}</strong></td>
+                            <td>{{ task.description or '-' }}</td>
+                            <td>{{ task.due_date or '-' }}</td>
+                            <td>
+                                <span class="status-badge status-{{ task.status.lower() }}">
+                                    {{ task.status }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if task.days_left is not none %}
+                                    {% if task.days_left < 0 %}
+                                        <span class="days-overdue">{{ task.days_left }} days</span>
+                                    {% elif task.days_left == 0 %}
+                                        <span class="days-today">Today</span>
+                                    {% else %}
+                                        <span class="days-left">{{ task.days_left }} days</span>
+                                    {% endif %}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td class="action-buttons">
+                                <a href="/edit/{{ task.id }}" class="btn-edit">Edit</a>
+                                <a href="/delete/{{ task.id }}" class="btn-delete" 
+                                   onclick="return confirm('Are you sure you want to delete this task?')">Delete</a>
+                                {% if task.status == 'Pending' %}
+                                    <a href="/toggle/{{ task.id }}" class="btn-complete">Mark Complete</a>
+                                {% else %}
+                                    <a href="/toggle/{{ task.id }}" class="btn-pending">Mark Pending</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-tasks">No tasks yet! Click "Add Task" to create one.</p>
+            {% endif %}
+        </div>
+
+        <p class="footer-message">Make sure to add due dates for reminders. Good luck with your project! 🎯</p>
+    </div>
+
+    <script>
+        function toggleAddForm() {
+            const form = document.getElementById('addTaskForm');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+
+        // Auto-hide alerts after 3 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            });
+        }, 3000);
+    </script>
+</body>
+</html>
