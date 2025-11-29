@@ -31,8 +31,8 @@ A lightweight Python + Flask web application that helps students manage academic
 |-----------|-----------|
 | **Language** | Python 3.8+ |
 | **Framework** | Flask |
-| **Database** | SQLite3 |
-| **Frontend** | HTML5, CSS3 |
+| **Database** | SQLite |
+| **Frontend** | HTML, CSS |
 | **Authentication** | Flask-Login |
 | **Password Security** | Werkzeug Password Hashing |
 
@@ -193,3 +193,4 @@ Currently, there are no known critical bugs. For reporting issues or contributin
 **Made with ❤️ by Nimisha**
 
 *Last Updated: November 2024*
+
