@@ -422,3 +422,34 @@ tbody tr:hover {
 .btn-logout:hover {
     background: #c82333;
 }
+/* Site Footer */
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    margin-top: 30px;
+    border-top: 2px solid #667eea;
+}
+
+.site-footer p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+.site-footer strong {
+    color: #667eea;
+    font-weight: 700;
+}
+
+.site-footer a {
+    color: #667eea;
+    text-decoration: none;
+    margin-left: 10px;
+    transition: color 0.3s;
+}
+
+.site-footer a:hover {
+    color: #5568d3;
+    text-decoration: underline;
+}
