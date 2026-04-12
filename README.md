@@ -192,5 +192,5 @@ Currently, there are no known critical bugs. For reporting issues or contributin
 
 **Made with ❤️ by Nimisha**
 
-*Last Updated: November 2024*
+.....
 
